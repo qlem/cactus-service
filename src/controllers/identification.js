@@ -7,6 +7,7 @@ const User = require('./../models/user');
 const router = express.Router();
 const secret = 'T6Y8e7Ujk';
 
+// TODO remove these comments in prod
 // 5Wn3p4HvQ
 
 const bodyCheck = (req, res, next) => {

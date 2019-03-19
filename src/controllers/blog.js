@@ -7,6 +7,18 @@ const Auth = require('./../middleware/authentication');
 
 router.use(Auth.auth);
 
+router.get('/', async  (req, res) => {
+    try {
+        let posts = await Post.getAll();
+        res.send(posts)
+    } catch (e) {
+        res.status(500).send('Internal error');
+        console.error("Cannot get posts");
+        if (e.stack)
+            console.error(e.stack)
+    }
+});
+
 router.post('/', async (req, res) => {
     try {
         if (!req.body.data || !req.body.data.title || !req.body.data.body) {
@@ -25,13 +37,28 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.get('/', async  (req, res) => {
+router.put('/', async (req, res) => {
     try {
-        let posts = await Post.getAll();
-        res.send(posts)
+        if (!req.body.data || !req.body.data._id || !req.body.data.title ||
+            !req.body.data.body) {
+            res.status(400).send('Wrong or empty body');
+            return
+        }
+        // TODO do not allow to edit a post from another author
+        let post = req.body.data;
+        post.lastEdited = {
+            authorId: req.user._id,
+            date: Date.now()
+        };
+        let obj = await Post.update(post);
+        if (obj.n !== 1) {
+            res.status(400).send('Wrong post id');
+            return
+        }
+        res.send(post)
     } catch (e) {
         res.status(500).send('Internal error');
-        console.error("Cannot get posts");
+        console.error("Cannot update post");
         if (e.stack)
             console.error(e.stack)
     }
@@ -52,33 +79,6 @@ router.delete('/', async (req, res) => {
    } catch (e) {
        res.status(500).send('Internal error');
        console.error("Cannot delete post");
-       if (e.stack)
-           console.error(e.stack)
-   }
-});
-
-router.put('/', async (req, res) => {
-   try {
-       if (!req.body.data || !req.body.data._id || !req.body.data.title ||
-           !req.body.data.body) {
-           res.status(400).send('Wrong or empty body');
-           return
-       }
-       // TODO do not allow to edit a post from another author
-       let post = req.body.data;
-       post.lastEdited = {
-           authorId: req.user._id,
-           date: Date.now()
-       };
-       let obj = await Post.update(post);
-       if (obj.n !== 1) {
-           res.status(400).send('Wrong post id');
-           return
-       }
-       res.send(post)
-   } catch (e) {
-       res.status(500).send('Internal error');
-       console.error("Cannot update post");
        if (e.stack)
            console.error(e.stack)
    }

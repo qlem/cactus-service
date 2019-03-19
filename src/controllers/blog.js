@@ -70,8 +70,8 @@ router.delete('/', async (req, res) => {
            res.status(400).send('Missing post id in query params');
            return
        }
-       let obj = await Post.delete(req.query.postId);
-       if (obj.n !== 1) {
+       let wr = await Post.delete(req.query.postId);
+       if (wr.n !== 1) {
            res.status(400).send('Wrong post id');
            return
        }

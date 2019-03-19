@@ -13,4 +13,4 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 
 exports.get = filter => User.findOne(filter);
-exports.update = user => User.updateOne(user, {_id: user._id});
+exports.update = user => User.updateOne({_id: user._id}, user);

@@ -17,6 +17,7 @@
     "morgan": "^1.9.1"
   },
   "devDependencies": {
+    "cors": "^2.8.5",
     "nodemon": "^1.18.10"
   }
 }

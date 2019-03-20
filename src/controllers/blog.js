@@ -5,8 +5,6 @@ const Post = require('./../models/post');
 const router = express.Router();
 const Auth = require('./../middleware/authentication');
 
-router.use(Auth.auth);
-
 router.get('/', async  (req, res) => {
     try {
         let posts = await Post.getAll();
@@ -19,7 +17,7 @@ router.get('/', async  (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', Auth.auth, async (req, res) => {
     try {
         if (!req.body.data || !req.body.data.title || !req.body.data.body) {
             res.status(400).send('Wrong or empty body');
@@ -37,7 +35,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/', async (req, res) => {
+router.put('/', Auth.auth, async (req, res) => {
     try {
         if (!req.body.data || !req.body.data._id || !req.body.data.title ||
             !req.body.data.body) {
@@ -64,7 +62,7 @@ router.put('/', async (req, res) => {
     }
 });
 
-router.delete('/', async (req, res) => {
+router.delete('/', Auth.auth, async (req, res) => {
    try {
        if (!req.query.postId) {
            res.status(400).send('Missing post id in query params');

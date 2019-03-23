@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "cactus-service",
   "version": "1.0.0",
   "description": "A small API",
   "main": "src/app.js",

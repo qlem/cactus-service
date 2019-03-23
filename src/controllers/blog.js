@@ -7,7 +7,7 @@ const Auth = require('./../middleware/authentication');
 
 router.get('/', async  (req, res) => {
     try {
-        let posts = await Post.getAll();
+        const posts = await Post.getAll();
         res.send(posts)
     } catch (e) {
         res.status(500).send('Internal error');
@@ -25,7 +25,7 @@ router.post('/', Auth.auth, async (req, res) => {
         }
         let post = req.body.data;
         post.authorId = req.user._id;
-        let doc = await Post.add(post);
+        const doc = await Post.add(post);
         res.send(doc)
     } catch (e) {
         res.status(500).send('Internal error');
@@ -48,8 +48,8 @@ router.put('/', Auth.auth, async (req, res) => {
             authorId: req.user._id,
             date: Date.now()
         };
-        let obj = await Post.update(post);
-        if (obj.n !== 1) {
+        const wr = await Post.update(post);
+        if (wr.n !== 1) {
             res.status(400).send('Wrong post id');
             return
         }
@@ -68,7 +68,7 @@ router.delete('/', Auth.auth, async (req, res) => {
            res.status(400).send('Missing post id in query params');
            return
        }
-       let wr = await Post.delete(req.query.postId);
+       const wr = await Post.delete(req.query.postId);
        if (wr.n !== 1) {
            res.status(400).send('Wrong post id');
            return

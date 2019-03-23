@@ -19,7 +19,7 @@ const bodyCheck = (req, res, next) => {
 };
 
 const userCheck = async (req, res, next) => {
-    let data = req.body.data;
+    const data = req.body.data;
     let user = await User.get({email: data.login});
     if (!user)
         user = await User.get({userName: data.login});

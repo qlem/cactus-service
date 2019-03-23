@@ -12,12 +12,12 @@ const port = 3000;
 
 const app = express();
 
-const options = {
+// TODO cors enabled for dev
+app.use(cors({
     origin: 'http://localhost:8080',
-    optionsSuccessStatus: 200
-};
+    optionsSuccessStatus: 200,
+}));
 
-app.use(cors(options));
 app.use(logger('common'));
 app.use(bodyParser.json());
 app.use(router);

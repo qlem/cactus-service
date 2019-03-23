@@ -9,8 +9,8 @@ exports.auth = async (req, res, next) => {
         res.status(401).send('Unauthorized');
         return
     }
-    let token = req.header('token');
-    let user = await User.get({token: token});
+    const token = req.header('token');
+    const user = await User.get({token: token});
     if (!user) {
         res.status(401).send('Unauthorized');
         return

@@ -7,9 +7,6 @@ const User = require('./../models/user');
 const router = express.Router();
 const secret = 'T6Y8e7Ujk';
 
-// TODO remove these comments in prod
-// 5Wn3p4HvQ
-
 const bodyCheck = (req, res, next) => {
     if (!req.body.data || !req.body.data.login || !req.body.data.password) {
         res.status(400).send('Wrong or empty body');

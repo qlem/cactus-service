@@ -10,8 +10,6 @@ services:
       - mongodb
     depends_on:
       - mongodb
-    volumes:
-      - /home/qlem/api:/usr/src/app
 
   mongodb:
     container_name: mongodb

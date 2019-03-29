@@ -2,16 +2,6 @@ version: '3.1'
 
 services:
 
-  cactus-service:
-    build: ./
-    restart: always
-    ports:
-      - 4467:8080
-    links:
-      - mongodb
-    depends_on:
-      - mongodb
-
   mongodb:
     container_name: mongodb
     image: mongo
@@ -29,3 +19,17 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: AA6bm58Bi
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+
+  cactus-service:
+    build: ./
+    restart: always
+    ports:
+      - 4467:8080
+    links:
+      - mongodb
+    depends_on:
+      - mongodb

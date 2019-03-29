@@ -13,8 +13,9 @@ const port = 8080;
 const app = express();
 
 // TODO cors enabled for dev
+// http://localhost:8080
 app.use(cors({
-    origin: 'http://localhost:8080',
+    origin: 'https://api.cactus.run',
     optionsSuccessStatus: 200,
 }));
 

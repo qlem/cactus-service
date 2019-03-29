@@ -4,6 +4,7 @@ services:
 
   cactus-service:
     build: ./
+    restart: always
     ports:
       - 4467:8080
     links:

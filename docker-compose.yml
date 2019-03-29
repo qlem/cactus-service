@@ -11,8 +11,6 @@ services:
       - mongodb
     networks:
       - cactus-net
-    volumes:
-      - .:/usr/src/app
 
   mongodb:
     container_name: mongodb

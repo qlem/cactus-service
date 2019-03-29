@@ -7,13 +7,26 @@ const logger = require('morgan');
 const cors = require('cors');
 const router  = require('./controllers/index');
 const tools = require('./tools/tools');
+
+/**
+ * Database URI - port for development
+ */
+// const uri = 'mongodb://root:AA6bm58Bi@localhost:27017/admin';
+// const port = 3000;
+
+/**
+ * Database URI - port for production
+ */
 const uri = 'mongodb://root:AA6bm58Bi@mongodb:27017/admin';
 const port = 8080;
 
 const app = express();
 
-// TODO cors enabled for dev
-// http://localhost:8080
+/**
+ * CORS
+ * dev origin: http://localhost:8080
+ * prod origin: https://cactus.run
+ */
 app.use(cors({
     origin: 'https://cactus.run',
     optionsSuccessStatus: 200,

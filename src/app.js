@@ -8,27 +8,25 @@ const cors = require('cors');
 const router  = require('./controllers/index');
 const tools = require('./tools/tools');
 
-/**
- * Database URI - port for development
- */
-// const uri = 'mongodb://root:AA6bm58Bi@localhost:27017/admin';
-// const port = 3000;
+// dev URI / port mongo db
+let uri = 'mongodb://root:AA6bm58Bi@localhost:27017/admin';
+let port = 3000;
 
-/**
- * Database URI - port for production
- */
-const uri = 'mongodb://root:AA6bm58Bi@mongodb:27017/admin';
-const port = 8080;
+// dev CORS origin
+let origin = 'http://localhost:8080';
+
+// if argv == 'prod', set URI / port database and CORS origin for production.
+if (process.argv.length >= 3 && process.argv[2] === 'prod') {
+    uri = 'mongodb://root:AA6bm58Bi@mongodb:27017/admin';
+    port = 8080;
+    origin = 'https://cactus.run';
+}
 
 const app = express();
 
-/**
- * CORS
- * dev origin: http://localhost:8080
- * prod origin: https://cactus.run
- */
+// CORS middleware
 app.use(cors({
-    origin: 'https://cactus.run',
+    origin: origin,
     optionsSuccessStatus: 200,
 }));
 

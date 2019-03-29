@@ -8,7 +8,7 @@ const cors = require('cors');
 const router  = require('./controllers/index');
 const tools = require('./tools/tools');
 const uri = 'mongodb://root:AA6bm58Bi@mongodb:27017/admin';
-const port = 3000;
+const port = 8080;
 
 const app = express();
 

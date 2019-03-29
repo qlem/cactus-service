@@ -1,12 +1,12 @@
 FROM node:latest
 
-WORKDIR /home/qlem/cactus-service
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
 RUN npm install
 
-COPY . .
+COPY src ./
 
 EXPOSE 8080
 

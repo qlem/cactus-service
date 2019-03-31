@@ -7,7 +7,15 @@ const Auth = require('./../middleware/authentication');
 
 router.get('/', async  (req, res) => {
     try {
-        const posts = await Post.getAll();
+        let posts;
+        if (req.query.type) {
+            posts = await Post.getAll({
+                type: req.query.type,
+                published: true
+            })
+        } else {
+            posts = await Post.getAll({});
+        }
         res.send(posts)
     } catch (e) {
         res.status(500).send('Internal error');
@@ -37,17 +45,17 @@ router.post('/', Auth.auth, async (req, res) => {
 
 router.put('/', Auth.auth, async (req, res) => {
     try {
-        if (!req.body.data || !req.body.data._id || !req.body.data.title ||
-            !req.body.data.body) {
+        if (!req.body.data || !req.body.data._id) {
             res.status(400).send('Wrong or empty body');
             return
         }
-        // TODO do not allow to edit a post from another author
         let post = req.body.data;
-        post.lastEdited = {
-            authorId: req.user._id,
-            date: Date.now()
-        };
+        if (post.title || post.body) {
+            post.lastEdited = {
+                authorId: req.user._id,
+                date: Date.now()
+            };
+        }
         const wr = await Post.update(post);
         if (wr.n !== 1) {
             res.status(400).send('Wrong post id');

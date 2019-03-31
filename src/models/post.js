@@ -15,13 +15,18 @@ const postSchema = new Schema({
     lastEdited: {
         authorId: ObjectId,
         date: Date
-    }
+    },
+    type: String,
+    published: Boolean
 });
 
 const Post = mongoose.model('Post', postSchema);
 
 exports.get = filter => Post.findOne(filter);
-exports.getAll = () => Post.aggregate([
+exports.getAll = match => Post.aggregate([
+    {
+        $match: match
+    },
     {
         $lookup: {
             from: 'users',
@@ -46,6 +51,8 @@ exports.getAll = () => Post.aggregate([
             },
             date: 1,
             body: 1,
+            type: 1,
+            published: 1,
             lastEdited: {
                 author: {
                     $arrayElemAt: ['$editedBy.userName', 0]

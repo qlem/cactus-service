@@ -19,6 +19,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: AA6bm58Bi
+    volumes:
+      - /var/cactus/db:/data/db
     networks:
       - cactus-net
 

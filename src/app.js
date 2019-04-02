@@ -8,25 +8,29 @@ const cors = require('cors');
 const router  = require('./controllers/index');
 const tools = require('./tools/tools');
 
-// dev URI / port mongo db
-let uri = 'mongodb://root:AA6bm58Bi@localhost:27017/admin';
-let port = 3000;
+let settings = {};
 
-// dev CORS origin
-let origin = 'http://localhost:8080';
-
-// if argv == 'prod', set URI / port database and CORS origin for production.
-if (process.argv.length >= 3 && process.argv[2] === 'prod') {
-    uri = 'mongodb://root:AA6bm58Bi@mongodb:27017/admin';
-    port = 8080;
-    origin = 'https://cactus.run';
+switch (process.env.NODE_ENV) {
+    case 'production':
+        settings = {
+            uri: 'mongodb://root:AA6bm58Bi@mongodb:27017/admin',
+            port: 8080,
+            origin: 'https://cactus.run'
+        };
+        break;
+    default:
+        settings = {
+            uri: 'mongodb://root:AA6bm58Bi@localhost:27017/admin',
+            port: 3000,
+            origin: 'http://localhost:8080'
+        };
 }
 
 const app = express();
 
 // CORS middleware
 app.use(cors({
-    origin: origin,
+    origin: settings.origin,
     optionsSuccessStatus: 200,
 }));
 
@@ -36,8 +40,8 @@ app.use(router);
 
 async function run() {
     try {
-        await mongoose.connect(uri, {useNewUrlParser: true, dbName: 'blog'});
-        app.listen(port, () => console.log(`Service listening on port ${port}`));
+        await mongoose.connect(settings.uri, {useNewUrlParser: true, dbName: 'blog'});
+        app.listen(settings.port, () => console.log(`Service listening on port ${settings.port}`));
     } catch (e) {
         console.error("Cannot run service");
         if (e.stack)

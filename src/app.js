@@ -8,7 +8,7 @@ const cors = require('cors');
 const router  = require('./controllers/index');
 const tools = require('./tools/tools');
 
-let settings = {};
+let settings;
 
 switch (process.env.NODE_ENV) {
     case 'production':

@@ -36,7 +36,7 @@ app.use(bodyParser.json());
 app.use(router);
 
 /**
- * Tries to connect to the database then listens on desired port. Retries every 3 seconds if an error occurs.
+ * Tries to connect to the database then listens on desired port. Retries every 3 seconds if any error occurs.
  * @returns {Promise<void>}
  */
 async function run() {

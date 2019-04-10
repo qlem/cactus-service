@@ -7,18 +7,18 @@ const Auth = require('./../middleware/authentication');
 
 /**
  * GET request - full path: /blog/
- * Route that allows to the client to fetch all posts or only the posts for the desired category.
+ * Route that allows to the client to fetch all posts or only the 10 latest posts for the desired category.
  */
 router.get('/', async  (req, res) => {
     try {
         let posts;
         if (req.query.type) {
-            posts = await Post.getAll({
+            posts = await Post.getLatest({
                 type: req.query.type,
                 published: true
             })
         } else {
-            posts = await Post.getAll({});
+            posts = await Post.getAll();
         }
         res.send(posts)
     } catch (e) {

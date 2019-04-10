@@ -5,6 +5,10 @@ const Post = require('./../models/post');
 const router = express.Router();
 const Auth = require('./../middleware/authentication');
 
+/**
+ * GET request - full path: /blog/
+ * Route that allows to the client to fetch all posts or only the posts for the desired category.
+ */
 router.get('/', async  (req, res) => {
     try {
         let posts;
@@ -25,6 +29,11 @@ router.get('/', async  (req, res) => {
     }
 });
 
+/**
+ * POST request - full path: /blog/
+ * Route that allows to add a new post. The authentication middleware is call before proceed
+ * to insert in database. Only the authenticated users are able to add a post.
+ */
 router.post('/', Auth.auth, async (req, res) => {
     try {
         if (!req.body.data || !req.body.data.title || !req.body.data.body) {
@@ -43,6 +52,11 @@ router.post('/', Auth.auth, async (req, res) => {
     }
 });
 
+/**
+ * PUT request - full path: /blog/
+ * Route that allows to update a post. The authentication middleware is call before proceed
+ * to update in database. Only the authenticated users are able to update a post.
+ */
 router.put('/', Auth.auth, async (req, res) => {
     try {
         if (!req.body.data || !req.body.data._id) {
@@ -70,6 +84,11 @@ router.put('/', Auth.auth, async (req, res) => {
     }
 });
 
+/**
+ * DELETE request - full path: /blog/
+ * Route that allows to delete a post. The authentication middleware is call before proceed
+ * to delete in the database. Only the authenticated users are able to delete a post.
+ */
 router.delete('/', Auth.auth, async (req, res) => {
    try {
        if (!req.query.postId) {

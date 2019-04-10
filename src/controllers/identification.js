@@ -7,6 +7,12 @@ const User = require('./../models/user');
 const router = express.Router();
 const secret = 'T6Y8e7Ujk';
 
+/**
+ * Middleware that checks if the request body is conform.
+ * @param req
+ * @param res
+ * @param next
+ */
 const bodyCheck = (req, res, next) => {
     if (!req.body.data || !req.body.data.login || !req.body.data.password) {
         res.status(400).send('Wrong or empty body');
@@ -15,6 +21,13 @@ const bodyCheck = (req, res, next) => {
     next();
 };
 
+/**
+ * Middleware that tries to recover a user on database according to the received data from the user.
+ * @param req
+ * @param res
+ * @param next
+ * @returns {Promise<void>}
+ */
 const userCheck = async (req, res, next) => {
     const data = req.body.data;
     let user = await User.get({email: data.login});
@@ -32,6 +45,12 @@ const userCheck = async (req, res, next) => {
     next()
 };
 
+/**
+ * POST request - full path: /identification/
+ * Route that allows to the user to proceed to the identification. Two middleware are called,
+ * the first checks the body request then the second tries to recover the user in the database.
+ * If successful, the API returns a valid web token.
+ */
 router.post('/', [bodyCheck, userCheck], async (req, res) => {
     try {
         let user = req.body.data;

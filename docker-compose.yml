@@ -2,46 +2,24 @@ version: '3.1'
 
 services:
 
-  cactus-service:
-    build: ./
-    restart: always
-    ports:
-      - 4467:8080
-    depends_on:
-      - mongodb
-    networks:
-      - cactus-net
-
   mongodb:
     container_name: mongodb
     image: mongo
     restart: always
+    ports:
+      - 27017:27017
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: AA6bm58Bi
-    volumes:
-      - /var/cactus/db:/data/db
-    networks:
-      - cactus-net
+      MONGO_INITDB_ROOT_PASSWORD: tsi966YGU
 
   mongo-express:
     container_name: mongo-express
     image: mongo-express
     restart: always
     ports:
-      - 4468:8081
+      - 8081:8081
     environment:
       ME_CONFIG_MONGODB_SERVER: mongodb
       ME_CONFIG_MONGODB_PORT: 27017
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: AA6bm58Bi
-      ME_CONFIG_BASICAUTH_USERNAME: qlem
-      ME_CONFIG_BASICAUTH_PASSWORD: 2BiEtb7P6
-      ME_CONFIG_SITE_COOKIESECRET: 26rKYFmf5
-      ME_CONFIG_SITE_SESSIONSECRET: Ry4pH4Ln5
-    networks:
-      - cactus-net
-
-networks:
-  cactus-net:
-    driver: bridge
+      ME_CONFIG_MONGODB_ADMINPASSWORD: tsi966YGU

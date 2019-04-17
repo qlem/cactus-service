@@ -10,20 +10,18 @@ const tools = require('./tools/tools');
 
 let settings;
 
-switch (process.env.NODE_ENV) {
-    case 'production':
-        settings = {
-            uri: 'mongodb://root:AA6bm58Bi@mongodb:27017/admin',
-            port: 8080,
-            origin: 'https://cactus.run'
-        };
-        break;
-    default:
-        settings = {
-            uri: 'mongodb://root:AA6bm58Bi@localhost:27017/admin',
-            port: 3000,
-            origin: 'http://localhost:8080'
-        };
+if (process.env.NODE_ENV === 'production') {
+    settings = {
+        uri: 'mongodb://root:AA6bm58Bi@mongodb:27017/admin',
+        port: 8080,
+        origin: 'https://cactus.run'
+    };
+} else {
+    settings = {
+        uri: 'mongodb://root:AA6bm58Bi@localhost:27017/admin',
+        port: 3000,
+        origin: 'http://localhost:8080'
+    };
 }
 
 const app = express();
